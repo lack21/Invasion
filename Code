@@ -1,0 +1,687 @@
+# lear
+# Invasion
+
+# Welcome to the Invasion
+# This game is made in pygame
+
+
+import pygame
+import random as rd
+
+
+if __name__ == "__main__":
+    pygame.init()
+
+    # Screen
+    WIDTH = 1200
+    HEIGHT = 800
+
+    screen = pygame.display.set_mode((WIDTH, HEIGHT))
+
+
+    # Background
+    background = pygame.image.load("galaxy.jpg")
+
+
+    # Title
+    pygame.display.set_caption("Invasion")
+
+
+    # Icon
+    icon = pygame.image.load("alien_icon.png")
+    pygame.display.set_icon(icon)
+
+
+    # Spaceship 1
+    class SpaceShip_1:
+        def __init__(self, spaceship, spaceship_X, spaceship_Y, bullet, bullet_X, bullet_Y):
+            self.spaceship = spaceship
+            self.spaceship_X = spaceship_X
+            self.spaceship_Y = spaceship_Y
+
+            self.bullet = bullet
+            self.bullet_X = bullet_X
+            self.bullet_Y = bullet_Y
+
+        def get_spaceship(self):
+            screen.blit(self.spaceship, (self.spaceship_X, self.spaceship_Y))
+
+        def get_bullet(self):
+            screen.blit(self.bullet, (self.bullet_X, self.bullet_Y))
+
+    spaceship_1 = pygame.image.load("ship_invasion.png")
+    spaceship_1_x = 460
+    spaceship_1_y = 640
+
+    ship_1_x_movement = 0
+    ship_1_y_movement = 0
+
+
+    bullet_1 = pygame.image.load("bullet_1.png")
+    bullet_1_x = spaceship_1_x + 16
+    bullet_1_y = spaceship_1_y + 16
+
+    fire_1 = False
+
+    SS_1 = SpaceShip_1(spaceship_1, spaceship_1_x, spaceship_1_y, bullet_1, bullet_1_x, bullet_1_y)
+
+
+    # Spaceship 2
+    class SpaceShip_2:
+        def __init__(self, spaceship, spaceship_X, spaceship_Y, bullet, bullet_X, bullet_Y):
+            self.spaceship = spaceship
+            self.spaceship_X = spaceship_X
+            self.spaceship_Y = spaceship_Y
+
+            self.bullet = bullet
+            self.bullet_X = bullet_X
+            self.bullet_Y = bullet_Y
+
+        def get_spaceship(self):
+            screen.blit(self.spaceship, (self.spaceship_X, self.spaceship_Y))
+
+        def get_bullet(self):
+            screen.blit(self.bullet, (self.bullet_X, self.bullet_Y))
+
+    spaceship_2 = pygame.image.load("ship_invasion_2.png")
+    spaceship_2_x = 560
+    spaceship_2_y = 640
+
+    ship_2_x_movement = 0
+    ship_2_y_movement = 0
+
+
+    bullet_2 = pygame.image.load("bullet_1.png")
+    bullet_2_x = spaceship_2_x + 16
+    bullet_2_y = spaceship_2_y + 16
+
+    fire_2 = False
+
+    SS_2 = SpaceShip_2(spaceship_2, spaceship_2_x, spaceship_2_y, bullet_2, bullet_2_x, bullet_2_y)
+
+
+    # Enemies
+    class Enemies:
+        def __init__(self, enemy, enemy_1_X, enemy_1_Y, enemy_2_X, enemy_2_Y, enemy_3_X, enemy_3_Y, enemy_4_X, enemy_4_Y):
+            self.enemy = enemy
+
+            self.enemy_1_X = enemy_1_X
+            self.enemy_1_Y = enemy_1_Y
+
+            self.enemy_2_X = enemy_2_X
+            self.enemy_2_Y = enemy_2_Y
+
+            self.enemy_3_X = enemy_3_X
+            self.enemy_3_Y = enemy_3_Y
+
+            self.enemy_4_X = enemy_4_X
+            self.enemy_4_Y = enemy_4_Y
+
+        def get_enemy_1(self):
+            screen.blit(self.enemy, (self.enemy_1_X, self.enemy_1_Y))
+
+        def get_enemy_2(self):
+            screen.blit(self.enemy, (self.enemy_2_X, self.enemy_2_Y))
+
+        def get_enemy_3(self):
+            screen.blit(self.enemy, (self.enemy_3_X, self.enemy_3_Y))
+
+        def get_enemy_4(self):
+            screen.blit(self.enemy, (self.enemy_4_X, self.enemy_4_Y))
+
+    enemy = pygame.image.load("alien.png")
+
+    enemy_1_x = 150
+    enemy_1_y = 130
+    speed_1 = 1.6
+    direction_1 = True
+
+    enemy_2_x = 300
+    enemy_2_y = 150
+    speed_2 = 1.6
+    direction_2 = True
+
+    enemy_3_x = 450
+    enemy_3_y = 110
+    speed_3 = 1.6
+    direction_3 = True
+
+    enemy_4_x = 600
+    enemy_4_y = 170
+    speed_4 = 1.6
+    direction_4 = True
+
+    ALIEN = Enemies(enemy, enemy_1_x, enemy_1_y, enemy_2_x, enemy_2_y, enemy_3_x, enemy_3_y, enemy_4_x, enemy_4_y)
+
+
+    # Asteroids
+    class Asteroid:
+        def __init__(self, asteroid_1, asteroid_1_X, asteroid_1_Y, asteroid_2, asteroid_2_X, asteroid_2_Y, asteroid_3, asteroid_3_X, asteroid_3_Y):
+            self.asteroid_1 = asteroid_1
+            self.asteroid_1_X = asteroid_1_X
+            self.asteroid_1_Y = asteroid_1_Y
+
+            self.asteroid_2 = asteroid_2
+            self.asteroid_2_X = asteroid_2_X
+            self.asteroid_2_Y = asteroid_2_Y
+
+            self.asteroid_3 = asteroid_3
+            self.asteroid_3_X = asteroid_3_X
+            self.asteroid_3_Y = asteroid_3_Y
+
+        def get_asteroid_1(self):
+            screen.blit(self.asteroid_1, (self.asteroid_1_X, self.asteroid_1_Y))
+
+        def get_asteroid_2(self):
+            screen.blit(self.asteroid_2, (self.asteroid_2_X, self.asteroid_2_Y))
+
+        def get_asteroid_3(self):
+            screen.blit(self.asteroid_3, (self.asteroid_3_X, self.asteroid_3_Y))
+
+    meteor_1 = pygame.image.load("asteroid_1.png")
+    meteor_1_x = rd.randint(100, 1100)
+    meteor_1_y = -100
+    met_speed_1 = rd.randint(0, 4)
+
+    meteor_2 = pygame.image.load("asteroid_4.png")
+    meteor_2_x = rd.randint(100, 1100)
+    meteor_2_y = -100
+    met_speed_2 = rd.randint(0, 4)
+
+    meteor_3 = pygame.image.load("asteroid_8.png")
+    meteor_3_x = rd.randint(100, 1100)
+    meteor_3_y = -100
+    met_speed_3 = rd.randint(0, 4)
+
+    meteor_speed = [1, 1.1, 1.2, 1.3, 1.4]
+
+    ASTA = Asteroid(meteor_1, meteor_1_x, meteor_1_y, meteor_2, meteor_2_x, meteor_2_y, meteor_3, meteor_3_x, meteor_3_y)
+
+
+    # Statistics
+    text = pygame.font.Font("freesansbold.ttf", 52)
+
+    class Statistics:
+        def __init__(self, score_1, score_2):
+            self.score_1 = score_1
+            self.score_2 = score_2
+
+        def get_score_1(self):
+            score_text = text.render(f"Score : {self.score_1}", True, (100, 100, 150))
+            screen.blit(score_text, (30, 30))
+
+        def get_score_2(self):
+            score_text = text.render(f"{self.score_2} : Score", True, (50, 150, 50))
+            screen.blit(score_text, (950, 30))
+
+    first_score = 0
+    second_score = 0
+
+    STAT = Statistics(first_score, second_score)
+
+
+    # Ending
+    class Ending:
+        def __init__(self):
+            self.win_1 = "Blue Wins!"
+            self.win_2 = "Green Wins!"
+
+        def get_win_1(self):
+            win_text = text.render(self.win_1, True, (35, 35, 35))
+            screen.blit(win_text, (450, 220))
+
+        def get_win_2(self):
+            win_text = text.render(self.win_2, True, (35, 35, 35))
+            screen.blit(win_text, (440, 220))
+
+    END = Ending()
+
+
+    DIE_1 = False
+    DIE_2 = False
+
+
+    # Sound
+    WINNING = pygame.mixer.Sound("TTT_win.wav")
+    LOSING = pygame.mixer.Sound("losing.wav")
+    SCORE_UP = pygame.mixer.Sound("score_gaining.wav")
+    SHOOTING = pygame.mixer.Sound("bullet_shooting.wav")
+
+    WN = True
+    LS = True
+
+    running = True
+    while running:
+        screen.blit(background, (-700, -700))
+
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+
+            if event.type == pygame.KEYDOWN and not(DIE_1) and not(DIE_2):
+                # Spaceship 1
+                if event.key == pygame.K_LEFT and SS_1.spaceship_X >= 0:
+                    ship_1_x_movement = -1.5
+
+                if event.key == pygame.K_RIGHT and SS_1.spaceship_X <= 1134:
+                    ship_1_x_movement = 1.5
+
+                if event.key == pygame.K_UP and SS_1.spaceship_Y >= 0:
+                    ship_1_y_movement = -1.5
+
+                if event.key == pygame.K_DOWN and SS_1.spaceship_Y <= 734:
+                    ship_1_y_movement = 1.5
+
+                # Shooting bullet 1
+                if event.key == pygame.K_m:
+                    fire_1 = True
+                    SHOOTING.play()
+
+
+                # Spaceship 2
+                if event.key == pygame.K_a and SS_2.spaceship_X >= 0:
+                    ship_2_x_movement = -1.5
+
+                if event.key == pygame.K_d and SS_2.spaceship_X <= 1134:
+                    ship_2_x_movement = 1.5
+
+                if event.key == pygame.K_w and SS_2.spaceship_Y >= 0:
+                    ship_2_y_movement = -1.5
+
+                if event.key == pygame.K_s and SS_2.spaceship_Y <= 734:
+                    ship_2_y_movement = 1.5
+
+                # Shooting bullet 2
+                if event.key == pygame.K_q:
+                    fire_2 = True
+                    SHOOTING.play()
+
+
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+                    ship_1_x_movement = 0
+
+                if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
+                    ship_1_y_movement = 0
+
+                if event.key == pygame.K_a or event.key == pygame.K_d:
+                    ship_2_x_movement = 0
+
+                if event.key == pygame.K_w or event.key == pygame.K_s:
+                    ship_2_y_movement = 0
+
+        if not(DIE_1) and not(DIE_2):
+            # Spaceship 1 Movement
+            SS_1.spaceship_X += ship_1_x_movement
+            SS_1.spaceship_Y += ship_1_y_movement
+
+            if not(fire_1):
+                SS_1.bullet_X += ship_1_x_movement
+                SS_1.bullet_Y += ship_1_y_movement
+
+            if SS_1.spaceship_X > 1134 or SS_1.spaceship_X < 0:
+                ship_1_x_movement = 0
+
+            if SS_1.spaceship_Y > 734 or SS_1.spaceship_Y < 0:
+                ship_1_y_movement = 0
+
+            # Bullet 1 Movement
+            if fire_1:
+                SS_1.bullet_Y -= 1.5
+                
+                if SS_1.bullet_Y < 0:
+                    SS_1.bullet_X = SS_1.spaceship_X + 16
+                    SS_1.bullet_Y = SS_1.spaceship_Y + 16
+                    fire_1 = False
+
+
+            # Spaceship 2 Movement
+            SS_2.spaceship_X += ship_2_x_movement
+            SS_2.spaceship_Y += ship_2_y_movement
+
+            if not(fire_2):
+                SS_2.bullet_X += ship_2_x_movement
+                SS_2.bullet_Y += ship_2_y_movement
+
+            if SS_2.spaceship_X > 1134 or SS_2.spaceship_X < 0:
+                ship_2_x_movement = 0
+
+            if SS_2.spaceship_Y > 734 or SS_2.spaceship_Y < 0:
+                ship_2_y_movement = 0
+
+            # Bullet 1 Movement
+            if fire_2:
+                SS_2.bullet_Y -= 1.5
+                
+                if SS_2.bullet_Y < 0:
+                    SS_2.bullet_X = SS_2.spaceship_X + 16
+                    SS_2.bullet_Y = SS_2.spaceship_Y + 16
+                    fire_2 = False
+
+
+            # Enemy Movement
+            if direction_1:
+                ALIEN.enemy_1_X += speed_1
+
+            else:
+                ALIEN.enemy_1_X -= speed_1
+
+
+            if direction_2:
+                ALIEN.enemy_2_X += speed_2
+
+            else:
+                ALIEN.enemy_2_X -= speed_2
+
+            
+            if direction_3:
+                ALIEN.enemy_3_X += speed_3
+
+            else:
+                ALIEN.enemy_3_X -= speed_3
+
+
+            if direction_4:
+                ALIEN.enemy_4_X += speed_4
+
+            else:
+                ALIEN.enemy_4_X -= speed_4
+
+
+            if ALIEN.enemy_1_X > 1134 or ALIEN.enemy_1_X < 0:
+                direction_1 = not(direction_1)
+                ALIEN.enemy_1_Y += 60
+
+            if ALIEN.enemy_2_X > 1134 or ALIEN.enemy_2_X < 0:
+                direction_2 = not(direction_2)
+                ALIEN.enemy_2_Y += 60
+
+            if ALIEN.enemy_3_X > 1134 or ALIEN.enemy_3_X < 0:
+                direction_3 = not(direction_3)
+                ALIEN.enemy_3_Y += 60
+
+            if ALIEN.enemy_4_X > 1134 or ALIEN.enemy_4_X < 0:
+                direction_4 = not(direction_4)
+                ALIEN.enemy_4_Y += 60
+
+
+            # Asteroid Movement
+            ASTA.asteroid_1_Y += meteor_speed[met_speed_1]
+            ASTA.asteroid_2_Y += meteor_speed[met_speed_2]
+            ASTA.asteroid_3_Y += meteor_speed[met_speed_3]
+
+            if ASTA.asteroid_1_Y > 900:
+                ASTA.asteroid_1_X = rd.randint(100, 1100)
+                ASTA.asteroid_1_Y = -100
+                met_speed_1 = rd.randint(0, 4)
+
+            if ASTA.asteroid_2_Y > 900:
+                ASTA.asteroid_2_X = rd.randint(100, 1100)
+                ASTA.asteroid_2_Y = -100
+                met_speed_2 = rd.randint(0, 4)
+
+            if ASTA.asteroid_3_Y > 900:
+                ASTA.asteroid_3_X = rd.randint(100, 1100)
+                ASTA.asteroid_3_Y = -100
+                met_speed_3 = rd.randint(0, 4)
+
+
+        # Hitting Enemy
+        # Player 1
+        if SS_1.bullet_X + 24 > ALIEN.enemy_1_X and SS_1.bullet_X - 24 < ALIEN.enemy_1_X and SS_1.bullet_Y + 24 > ALIEN.enemy_1_Y and SS_1.bullet_Y - 24 < ALIEN.enemy_1_Y:
+            ALIEN.enemy_1_X = 150
+            ALIEN.enemy_1_Y = 150
+            SS_1.bullet_X = SS_1.spaceship_X + 16
+            SS_1.bullet_Y = SS_1.spaceship_Y + 16
+            speed_1 += 0.05
+            STAT.score_1 += 1
+            fire_1 = False
+            SCORE_UP.play()
+
+        if SS_1.bullet_X + 24 > ALIEN.enemy_2_X and SS_1.bullet_X - 24 < ALIEN.enemy_2_X and SS_1.bullet_Y + 24 > ALIEN.enemy_2_Y and SS_1.bullet_Y - 24 < ALIEN.enemy_2_Y:
+            ALIEN.enemy_2_X = 150
+            ALIEN.enemy_2_Y = 150
+            SS_1.bullet_X = SS_1.spaceship_X + 16
+            SS_1.bullet_Y = SS_1.spaceship_Y + 16
+            speed_2 += 0.05
+            STAT.score_1 += 1
+            fire_1 = False
+            SCORE_UP.play()
+
+        if SS_1.bullet_X + 24 > ALIEN.enemy_3_X and SS_1.bullet_X - 24 < ALIEN.enemy_3_X and SS_1.bullet_Y + 24 > ALIEN.enemy_3_Y and SS_1.bullet_Y - 24 < ALIEN.enemy_3_Y:
+            ALIEN.enemy_3_X = 150
+            ALIEN.enemy_3_Y = 150
+            SS_1.bullet_X = SS_1.spaceship_X + 16
+            SS_1.bullet_Y = SS_1.spaceship_Y + 16
+            speed_3 += 0.05
+            STAT.score_1 += 1
+            fire_1 = False
+            SCORE_UP.play()
+
+        if SS_1.bullet_X + 24 > ALIEN.enemy_4_X and SS_1.bullet_X - 24 < ALIEN.enemy_4_X and SS_1.bullet_Y + 24 > ALIEN.enemy_4_Y and SS_1.bullet_Y - 24 < ALIEN.enemy_4_Y:
+            ALIEN.enemy_4_X = 150
+            ALIEN.enemy_4_Y = 150
+            SS_1.bullet_X = SS_1.spaceship_X + 16
+            SS_1.bullet_Y = SS_1.spaceship_Y + 16
+            speed_4 += 0.05
+            STAT.score_1 += 1
+            fire_1 = False
+            SCORE_UP.play()
+
+        # Player 2
+        if SS_2.bullet_X + 24 > ALIEN.enemy_1_X and SS_2.bullet_X - 24 < ALIEN.enemy_1_X and SS_2.bullet_Y + 24 > ALIEN.enemy_1_Y and SS_2.bullet_Y - 24 < ALIEN.enemy_1_Y:
+            ALIEN.enemy_1_X = 150
+            ALIEN.enemy_1_Y = 150
+            SS_2.bullet_X = SS_2.spaceship_X + 16
+            SS_2.bullet_Y = SS_2.spaceship_Y + 16
+            speed_1 += 0.05
+            STAT.score_2 += 1
+            fire_2 = False
+            SCORE_UP.play()
+
+        if SS_2.bullet_X + 24 > ALIEN.enemy_2_X and SS_2.bullet_X - 24 < ALIEN.enemy_2_X and SS_2.bullet_Y + 24 > ALIEN.enemy_2_Y and SS_2.bullet_Y - 24 < ALIEN.enemy_2_Y:
+            ALIEN.enemy_2_X = 150
+            ALIEN.enemy_2_Y = 150
+            SS_2.bullet_X = SS_2.spaceship_X + 16
+            SS_2.bullet_Y = SS_2.spaceship_Y + 16
+            speed_2 += 0.05
+            STAT.score_2 += 1
+            fire_2 = False
+            SCORE_UP.play()
+
+        if SS_2.bullet_X + 24 > ALIEN.enemy_3_X and SS_2.bullet_X - 24 < ALIEN.enemy_3_X and SS_2.bullet_Y + 24 > ALIEN.enemy_3_Y and SS_2.bullet_Y - 24 < ALIEN.enemy_3_Y:
+            ALIEN.enemy_3_X = 150
+            ALIEN.enemy_3_Y = 150
+            SS_2.bullet_X = SS_2.spaceship_X + 16
+            SS_2.bullet_Y = SS_2.spaceship_Y + 16
+            speed_3 += 0.05
+            STAT.score_2 += 1
+            fire_2 = False
+            SCORE_UP.play()
+
+        if SS_2.bullet_X + 24 > ALIEN.enemy_4_X and SS_2.bullet_X - 24 < ALIEN.enemy_4_X and SS_2.bullet_Y + 24 > ALIEN.enemy_4_Y and SS_2.bullet_Y - 24 < ALIEN.enemy_4_Y:
+            ALIEN.enemy_4_X = 150
+            ALIEN.enemy_4_Y = 150
+            SS_2.bullet_X = SS_2.spaceship_X + 16
+            SS_2.bullet_Y = SS_2.spaceship_Y + 16
+            speed_4 += 0.05
+            STAT.score_2 += 1
+            fire_2 = False
+            SCORE_UP.play()
+
+        
+        # Hitting Asteroid
+        # Player 1
+        if SS_1.bullet_X + 46 > ASTA.asteroid_1_X and SS_1.bullet_X - 46 < ASTA.asteroid_1_X and SS_1.bullet_Y + 46 > ASTA.asteroid_1_Y and SS_1.bullet_Y - 46 < ASTA.asteroid_1_Y:
+            SS_1.bullet_X = SS_1.spaceship_X + 16
+            SS_1.bullet_Y = SS_1.spaceship_Y + 16
+            ASTA.asteroid_1_X = rd.randint(100, 1100)
+            ASTA.asteroid_1_Y = -100
+            met_speed_1 = rd.randint(0, 4)
+            STAT.score_1 += 1
+            fire_1 = False
+            SCORE_UP.play()
+
+        if SS_1.bullet_X + 46 > ASTA.asteroid_2_X and SS_1.bullet_X - 46 < ASTA.asteroid_2_X and SS_1.bullet_Y + 46 > ASTA.asteroid_2_Y and SS_1.bullet_Y - 46 < ASTA.asteroid_2_Y:
+            SS_1.bullet_X = SS_1.spaceship_X + 16
+            SS_1.bullet_Y = SS_1.spaceship_Y + 16
+            ASTA.asteroid_2_X = rd.randint(100, 1100)
+            ASTA.asteroid_2_Y = -100
+            met_speed_2 = rd.randint(0, 4)
+            STAT.score_1 += 1
+            fire_1 = False
+            SCORE_UP.play()
+
+        if SS_1.bullet_X + 46 > ASTA.asteroid_3_X and SS_1.bullet_X - 46 < ASTA.asteroid_3_X and SS_1.bullet_Y + 46 > ASTA.asteroid_3_Y and SS_1.bullet_Y - 46 < ASTA.asteroid_3_Y:
+            SS_1.bullet_X = SS_1.spaceship_X + 16
+            SS_1.bullet_Y = SS_1.spaceship_Y + 16
+            ASTA.asteroid_3_X = rd.randint(100, 1100)
+            ASTA.asteroid_3_Y = -100
+            met_speed_3 = rd.randint(0, 4)
+            STAT.score_1 += 1
+            fire_1 = False
+            SCORE_UP.play()
+
+        # Player 2
+        if SS_2.bullet_X + 46 > ASTA.asteroid_1_X and SS_2.bullet_X - 46 < ASTA.asteroid_1_X and SS_2.bullet_Y + 46 > ASTA.asteroid_1_Y and SS_2.bullet_Y - 46 < ASTA.asteroid_1_Y:
+            SS_2.bullet_X = SS_2.spaceship_X + 16
+            SS_2.bullet_Y = SS_2.spaceship_Y + 16
+            ASTA.asteroid_1_X = rd.randint(100, 1100)
+            ASTA.asteroid_1_Y = -100
+            met_speed_1 = rd.randint(0, 4)
+            STAT.score_2 += 1
+            fire_2 = False
+            SCORE_UP.play()
+
+        if SS_2.bullet_X + 46 > ASTA.asteroid_2_X and SS_2.bullet_X - 46 < ASTA.asteroid_2_X and SS_2.bullet_Y + 46 > ASTA.asteroid_2_Y and SS_2.bullet_Y - 46 < ASTA.asteroid_2_Y:
+            SS_2.bullet_X = SS_2.spaceship_X + 16
+            SS_2.bullet_Y = SS_2.spaceship_Y + 16
+            ASTA.asteroid_2_X = rd.randint(100, 1100)
+            ASTA.asteroid_2_Y = -100
+            met_speed_2 = rd.randint(0, 4)
+            STAT.score_2 += 1
+            fire_2 = False
+            SCORE_UP.play()
+
+        if SS_2.bullet_X + 46 > ASTA.asteroid_3_X and SS_2.bullet_X - 46 < ASTA.asteroid_3_X and SS_2.bullet_Y + 46 > ASTA.asteroid_3_Y and SS_2.bullet_Y - 46 < ASTA.asteroid_3_Y:
+            SS_2.bullet_X = SS_2.spaceship_X + 16
+            SS_2.bullet_Y = SS_2.spaceship_Y + 16
+            ASTA.asteroid_3_X = rd.randint(100, 1100)
+            ASTA.asteroid_3_Y = -100
+            met_speed_3 = rd.randint(0, 4)
+            STAT.score_2 += 1
+            fire_2 = False
+            SCORE_UP.play()
+
+
+        # Hitting SpaceShip
+        # Player 1
+        if SS_1.spaceship_X + 60 > ALIEN.enemy_1_X and SS_1.spaceship_X - 40 < ALIEN.enemy_1_X and SS_1.spaceship_Y + 60 > ALIEN.enemy_1_Y and SS_1.spaceship_Y - 40 < ALIEN.enemy_1_Y:
+            DIE_1 = True
+
+        if SS_1.spaceship_X + 60 > ALIEN.enemy_2_X and SS_1.spaceship_X - 40 < ALIEN.enemy_2_X and SS_1.spaceship_Y + 60 > ALIEN.enemy_2_Y and SS_1.spaceship_Y - 40 < ALIEN.enemy_2_Y:
+            DIE_1 = True
+
+        if SS_1.spaceship_X + 60 > ALIEN.enemy_3_X and SS_1.spaceship_X - 40 < ALIEN.enemy_3_X and SS_1.spaceship_Y + 60 > ALIEN.enemy_3_Y and SS_1.spaceship_Y - 40 < ALIEN.enemy_3_Y:
+            DIE_1 = True
+
+        if SS_1.spaceship_X + 60 > ALIEN.enemy_4_X and SS_1.spaceship_X - 40 < ALIEN.enemy_4_X and SS_1.spaceship_Y + 60 > ALIEN.enemy_4_Y and SS_1.spaceship_Y - 40 < ALIEN.enemy_4_Y:
+            DIE_1 = True
+
+        if SS_1.spaceship_X + 60 > ASTA.asteroid_1_X and SS_1.spaceship_X - 40 < ASTA.asteroid_1_X and SS_1.spaceship_Y + 60 > ASTA.asteroid_1_Y and SS_1.spaceship_Y - 40 < ASTA.asteroid_1_Y:
+            DIE_1 = True
+
+        if SS_1.spaceship_X + 60 > ASTA.asteroid_2_X and SS_1.spaceship_X - 40 < ASTA.asteroid_2_X and SS_1.spaceship_Y + 60 > ASTA.asteroid_2_Y and SS_1.spaceship_Y - 40 < ASTA.asteroid_2_Y:
+            DIE_1 = True
+
+        if SS_1.spaceship_X + 60 > ASTA.asteroid_3_X and SS_1.spaceship_X - 40 < ASTA.asteroid_3_X and SS_1.spaceship_Y + 60 > ASTA.asteroid_3_Y and SS_1.spaceship_Y - 40 < ASTA.asteroid_3_Y:
+            DIE_1 = True
+
+        # Player 2
+        if SS_2.spaceship_X + 60 > ALIEN.enemy_1_X and SS_2.spaceship_X - 40 < ALIEN.enemy_1_X and SS_2.spaceship_Y + 60 > ALIEN.enemy_1_Y and SS_2.spaceship_Y - 40 < ALIEN.enemy_1_Y:
+            DIE_2 = True
+
+        if SS_2.spaceship_X + 60 > ALIEN.enemy_2_X and SS_2.spaceship_X - 40 < ALIEN.enemy_2_X and SS_2.spaceship_Y + 60 > ALIEN.enemy_2_Y and SS_2.spaceship_Y - 40 < ALIEN.enemy_2_Y:
+            DIE_2 = True
+
+        if SS_2.spaceship_X + 60 > ALIEN.enemy_3_X and SS_2.spaceship_X - 40 < ALIEN.enemy_3_X and SS_2.spaceship_Y + 60 > ALIEN.enemy_3_Y and SS_2.spaceship_Y - 40 < ALIEN.enemy_3_Y:
+            DIE_2 = True
+
+        if SS_2.spaceship_X + 60 > ALIEN.enemy_4_X and SS_2.spaceship_X - 40 < ALIEN.enemy_4_X and SS_2.spaceship_Y + 60 > ALIEN.enemy_4_Y and SS_2.spaceship_Y - 40 < ALIEN.enemy_4_Y:
+            DIE_2 = True
+
+        if SS_2.spaceship_X + 60 > ASTA.asteroid_1_X and SS_2.spaceship_X - 40 < ASTA.asteroid_1_X and SS_2.spaceship_Y + 60 > ASTA.asteroid_1_Y and SS_2.spaceship_Y - 40 < ASTA.asteroid_1_Y:
+            DIE_2 = True
+
+        if SS_2.spaceship_X + 60 > ASTA.asteroid_2_X and SS_2.spaceship_X - 40 < ASTA.asteroid_2_X and SS_2.spaceship_Y + 60 > ASTA.asteroid_2_Y and SS_2.spaceship_Y - 40 < ASTA.asteroid_2_Y:
+            DIE_2 = True
+
+        if SS_2.spaceship_X + 60 > ASTA.asteroid_3_X and SS_2.spaceship_X - 40 < ASTA.asteroid_3_X and SS_2.spaceship_Y + 60 > ASTA.asteroid_3_Y and SS_2.spaceship_Y - 40 < ASTA.asteroid_3_Y:
+            DIE_2 = True
+
+
+        # Time
+        clock = pygame.time.Clock()
+        if not(DIE_1) and not(DIE_2):
+            clocker = round(pygame.time.get_ticks() / 1000, 2)
+        clock_text = pygame.font.Font("freesansbold.ttf", 40)
+
+        def time():
+            clock_time = clock_text.render(str(clocker), True, (200, 200, 200))
+            screen.blit(clock_time, (550, 30))
+
+        time()
+
+
+        # Animation
+        if not(DIE_1):
+            SS_1.get_bullet()
+            SS_1.get_spaceship()
+
+        if not(DIE_2):
+            SS_2.get_bullet()
+            SS_2.get_spaceship()
+
+        ALIEN.get_enemy_1()
+        ALIEN.get_enemy_2()
+        ALIEN.get_enemy_3()
+        ALIEN.get_enemy_4()
+
+        ASTA.get_asteroid_1()
+        ASTA.get_asteroid_2()
+        ASTA.get_asteroid_3()
+
+        STAT.get_score_1()
+        STAT.get_score_2()
+
+        # Loosing
+        if DIE_1 and DIE_2:
+            if LS:
+                LOSING.play()
+                LS = False
+
+
+        # First Winner
+        if DIE_1 and not(DIE_2):
+            END.get_win_2()
+
+            if WN:
+                WINNING.play()
+                WN = False
+
+        if STAT.score_1 == 50:
+            DIE_2 = True
+
+        # Second Winner
+        if DIE_2:
+            END.get_win_1()
+            if WN:
+                WINNING.play()
+                WN = False
+
+        if STAT.score_2 == 50:
+            DIE_1 = True
+
+
+        pygame.display.update()
